@@ -1,5 +1,6 @@
 import pytest
 from selenium import webdriver
+from selenium.webdriver.opera.options import Options as OperaOptions
 
 
 def pytest_addoption(parser):
@@ -31,6 +32,12 @@ def browser(request):
         if headless:
             options.headless = True
         driver = webdriver.Firefox(options=options)
+
+    elif browser == "opera":
+        options = OperaOptions()
+        if headless:
+            options.headless = True
+        driver = webdriver.Opera(options=options)
 
     else:
         raise ValueError('unrecognized browser %s' % browser)
