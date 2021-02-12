@@ -15,7 +15,7 @@ def base_url(request):
     return request.config.getoption('--url')
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def browser(request):
     browser = request.config.getoption("--browser")
     headless = request.config.getoption("--headless")
