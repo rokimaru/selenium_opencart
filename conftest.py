@@ -1,3 +1,6 @@
+import configparser
+from pathlib import Path
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.opera.options import Options as OperaOptions
@@ -6,8 +9,15 @@ from selenium.webdriver.opera.options import Options as OperaOptions
 def pytest_addoption(parser):
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
     parser.addoption("--headless", action="store_true", help="Run headless")
-    parser.addoption("--browser", action="store", default="chrome", choices=["chrome", "firefox"], help="browser")
+    parser.addoption("--browser", action="store", default="firefox", choices=["chrome", "firefox"], help="browser")
     parser.addoption('--url', action='store', default='http://localhost')
+
+
+@pytest.fixture(scope='session')
+def config():
+    config = configparser.ConfigParser()
+    config.read(Path(__file__).parent / 'config.ini')
+    return config
 
 
 @pytest.fixture

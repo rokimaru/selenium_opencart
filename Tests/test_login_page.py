@@ -1,22 +1,7 @@
-def test_open_page(browser, base_url):
-    browser.get(base_url + '/index.php?route=account/login')
+from pages.login import LoginPage
 
 
-def test_find_registration_button(browser):
-    assert browser.find_element_by_xpath("//a[contains(text(),'Continue')]")
-
-
-def test_find_login_button(browser):
-    assert browser.find_element_by_link_text("Login")
-
-
-def test_find_email_field(browser):
-    assert browser.find_element_by_id("input-email")
-
-
-def test_find_password_field(browser):
-    assert browser.find_element_by_id("input-password")
-
-
-def test_find_footer(browser):
-    assert browser.find_element_by_tag_name("footer")
+def test_loginpage(browser):
+    login_page = LoginPage(browser)
+    login_page.open_login_page()
+    login_page.check_elements_on_login_page()
