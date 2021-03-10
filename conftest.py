@@ -1,9 +1,11 @@
 import configparser
-from pathlib import Path
-
 import pytest
+import logging
+from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.opera.options import Options as OperaOptions
+
+logging.basicConfig(level=logging.INFO, filename="../logs/logs.log")
 
 
 def pytest_addoption(parser):
@@ -54,10 +56,11 @@ def browser(request):
 
     if maximized:
         driver.maximize_window()
+    logger = logging.getLogger('BrowserLogger')
+    logger.info('Browser {} started'.format(browser))
 
     def fin():
         driver.close()
 
     request.addfinalizer(fin)
-
     return driver
