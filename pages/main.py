@@ -5,9 +5,11 @@ from locators.main import HomePageLocators
 class MainPage(Base):
 
     def open_home_page(self):
+        self.logger.info('open home page')
         self.browser.get(self.url)
 
     def check_elements(self):
+        self.logger.info('check elements on home page')
         assert self._find_element(HomePageLocators.SEARCH)
         assert self._find_elements(HomePageLocators.CART)
         assert self._find_element(HomePageLocators.UPPER_MENU)

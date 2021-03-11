@@ -42,7 +42,7 @@ class AdminPage(Base):
         self.browser.switch_to.window(window_after)  # Свичнуться на окно с накладной
 
     def check_dispatch(self):
-        self.logger.info('check dispatchr')
+        self.logger.info('check dispatch')
         try:
             self._wait_element_to_be_presence(AdminLocators.Dispatch.CONTAINER)
             self._wait_element_to_be_presence(AdminLocators.Dispatch.DISPATCH_NOTE)
