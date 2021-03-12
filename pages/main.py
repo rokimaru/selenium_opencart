@@ -15,4 +15,3 @@ class MainPage(Base):
         assert self._find_element(HomePageLocators.UPPER_MENU)
         assert self._find_element(HomePageLocators.CART)
         assert self._find_element(HomePageLocators.WISH_LIST)
-

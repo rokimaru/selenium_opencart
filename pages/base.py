@@ -33,7 +33,7 @@ class Base:
         try:
             element = wait.until(EC.presence_of_element_located(locator))
         except TimeoutException:
-            raise AssertionError(f'{element} not found')
+            raise AssertionError(f'{locator} not found')
         return element
 
     def _wait_element_to_be_clickable(self, locator, wait_time=3):
