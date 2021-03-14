@@ -1,3 +1,5 @@
+import allure
+
 from pages.base import Base
 from locators.admin import AdminLocators
 from locators.common import CommonLocators
@@ -14,32 +16,40 @@ class AdminPage(Base):
     def login_to_admin_page(self, username, password):
         self.logger.info('login to admin page')
         input_username = self._wait_element_to_be_clickable(AdminLocators.LoginToAdminPage.INPUT_USERNAME)
-        self._input_text(input_username, username)
+        with allure.step('Ввод логина администратора'):
+            self._input_text(input_username, username)
         input_pass = self._wait_element_to_be_clickable(AdminLocators.LoginToAdminPage.INPUT_PASS)
-        self._input_text(input_pass, password)
+        with allure.step('Ввод пароля администратора'):
+            self._input_text(input_pass, password)
         login_button = self._find_elements(AdminLocators.LoginToAdminPage.LOGIN_BUTTON)[0]
-        login_button.click()
+        with allure.step('Нажатие кнопки входа'):
+            login_button.click()
         self._wait_element_to_be_presence(CommonLocators.WAIT_CONTAINER_LOAD)
 
     def logout_from_admin_page(self):
         self.logger.info('logout from admin page')
         logout_button = self._find_elements(CommonLocators.LOGOUT_BUTTON)[0]
-        logout_button.click()
+        with allure.step('Нажатие кнопки выхода'):
+            logout_button.click()
         self._wait_element_to_be_presence(AdminLocators.LoginToAdminPage.LOGIN_BUTTON)
 
     def go_to_the_last_order_card(self):
         self.logger.info('go to last order')
         latest_orders = self._find_elements(AdminLocators.Dashboard.VIEW_LATEST_ORDERS)
-        latest_orders[0].click()
+        with allure.step('Переход к последнему заказу'):
+            latest_orders[0].click()
         self._wait_element_to_be_presence(CommonLocators.WAIT_CONTAINER_LOAD)
 
     def go_to_print_shipping_list(self):
         self.logger.info('print shipping list')
         print_shipping_list = self._find_elements(AdminLocators.LastOrderCard.PRINT_SHIPPING_LIST)[0]
-        window_before = self.browser.window_handles[0]  # Сохранить текущее окно
+        with allure.step('Сохранить текущее окно'):
+            window_before = self.browser.window_handles[0]
         print_shipping_list.click()
-        window_after = self.browser.window_handles[1]  # Сохранить новое окно с открывшейся накладной
-        self.browser.switch_to.window(window_after)  # Свичнуться на окно с накладной
+        with allure.step('Сохранить новое окно с открывшейся накладной'):
+            window_after = self.browser.window_handles[1]
+        with allure.step('Свичнуться на окно с накладной'):
+            self.browser.switch_to.window(window_after)
 
     def check_dispatch(self):
         self.logger.info('check dispatch')
