@@ -6,9 +6,11 @@ class CatalogPage(Base):
     path = "/index.php?route=product/category&path=20"
 
     def open_catalog_page(self):
+        self.logger.info('open catalog page')
         self.browser.get(self.url + self.path)
 
     def check_elements_on_catalog_page(self):
+        self.logger.info('check elements on catalog page')
         self._find_element(CatalogLocators.MENU_SOFTWARE)
         self._find_element(CatalogLocators.MENU_TABLETS)
         self._find_element(CatalogLocators.MENU_COMPONENTS)

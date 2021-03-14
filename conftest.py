@@ -1,9 +1,18 @@
 import configparser
-from pathlib import Path
-
 import pytest
+import logging
+from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.opera.options import Options as OperaOptions
+from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
+
+logging.basicConfig(level=logging.INFO, filename="../logs/logs.log")
+
+
+class MyListener(AbstractEventListener):
+    def on_exception(self, exception, driver):
+        logging.error(f'there is a {exception}')
+        driver.save_screenshot(f'../logs/{exception}.png')
 
 
 def pytest_addoption(parser):
@@ -32,18 +41,21 @@ def browser(request):
     maximized = request.config.getoption("--maximized")
 
     if browser == "chrome":
+        driver = EventFiringWebDriver(webdriver.Chrome(), MyListener())
         options = webdriver.ChromeOptions()
         if headless:
             options.headless = True
         driver = webdriver.Chrome(options=options)
 
     elif browser == "firefox":
+        driver = EventFiringWebDriver(webdriver.Firefox(), MyListener())
         options = webdriver.FirefoxOptions()
         if headless:
             options.headless = True
         driver = webdriver.Firefox(options=options)
 
     elif browser == "opera":
+        driver = EventFiringWebDriver(webdriver.Opera(), MyListener())
         options = OperaOptions()
         if headless:
             options.headless = True
@@ -54,10 +66,11 @@ def browser(request):
 
     if maximized:
         driver.maximize_window()
+    logger = logging.getLogger('BrowserLogger')
+    logger.info('Browser {} started'.format(browser))
 
     def fin():
         driver.close()
 
     request.addfinalizer(fin)
-
     return driver

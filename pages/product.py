@@ -6,9 +6,11 @@ class ProductPage(Base):
     path = "/index.php?route=product/product&path=57&product_id=49"
 
     def open_product_page(self):
+        self.logger.info('open product page')
         self.browser.get(self.url + self.path)
 
     def check_elements_on_product_page(self):
+        self.logger.info('check elements on product page')
         assert self._find_element(ProductPageLocators.CHECK_PRODUCTS_IN_SHOPING_CART)
         assert self._find_element(ProductPageLocators.REVIEW)
         assert self._find_element(ProductPageLocators.ADD_TO_CART)
